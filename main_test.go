@@ -23,3 +23,21 @@ func TestValidateGroup(t *testing.T) {
 		}
 	}
 }
+
+func TestIsMsgid(t *testing.T) {
+	for msgid, valid := range map[string]bool{
+		"<valid@msgid>": true,
+		"<msgid>":       false, // Missing @
+		"notvalid":      false, // Missing start end <>
+		"<notvalid":     false, // Missing end >
+		"notvalid>":     false, // Missing start <
+		"12345":         false, // article id
+	} {
+		res, _ := isMsgid(msgid)
+
+		if res != valid {
+			t.Errorf("validateMsgid failed for %s expected '%v' but received '%v'", msgid, valid, res)
+
+		}
+	}
+}
