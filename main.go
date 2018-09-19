@@ -15,7 +15,8 @@ func ValidateGroup(group string) bool {
 	return false
 }
 
-func isMsgid(arg string) (bool, error) {
+// IsMsgid will check if a valid message is given
+func IsMsgid(arg string) (bool, error) {
 	if len(arg) >= 3 && arg[0] == '<' && arg[len(arg)-1] == '>' {
 		firstAt := strings.Index(arg, "@")
 
@@ -23,9 +24,13 @@ func isMsgid(arg string) (bool, error) {
 			// Missing @
 			return false, errors.New("Missing @ in msgid")
 		}
+		r, _ := regexp.Compile(`^[[:ascii:]]+$`)
+		if r.MatchString(arg) == false {
+			return false, errors.New("none ASCII chars found in msgid")
+		}
 		// msgid
 		return true, nil
 	}
 	// msgid
-	return false, nil
+	return false, errors.New("Invalid msgid")
 }

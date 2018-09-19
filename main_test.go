@@ -32,8 +32,9 @@ func TestIsMsgid(t *testing.T) {
 		"<notvalid":     false, // Missing end >
 		"notvalid>":     false, // Missing start <
 		"12345":         false, // article id
+		"<part74of205.Ip6&7Agv&HC&oBhSlekz@�test>": false,
 	} {
-		res, _ := isMsgid(msgid)
+		res, _ := IsMsgid(msgid)
 
 		if res != valid {
 			t.Errorf("validateMsgid failed for %s expected '%v' but received '%v'", msgid, valid, res)
